@@ -12,7 +12,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="movies">
+          <Route path="filmek">
             <Route index element={<MovieList />} />
             <Route path=":movieId" element={<MovieSingle />} />
           </Route>

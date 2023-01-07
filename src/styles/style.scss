@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  body {
+    @apply text-stone-400;
+    @apply bg-stone-900;
+  }
+
+  select {
+    background-position: right 1rem center;
+    background-image: url('../assets/img/chevron-down.svg');
+    background-repeat: no-repeat;
+    background-size: 1rem;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    appearance: none;
+    text-indent: 0.01px;
+  }
+}

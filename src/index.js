@@ -5,7 +5,7 @@ import { store } from './app/store';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 
-import './styles/style.css';
+import './styles/style.scss';
 
 const container = document.getElementById('root');
 const root = createRoot(container);

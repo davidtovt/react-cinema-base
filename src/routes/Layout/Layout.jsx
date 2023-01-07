@@ -8,9 +8,7 @@ const Layout = () => {
     <>
       <SiteHeader />
 
-      <main className="container mx-auto px-4 py-10">
-        <Outlet />
-      </main>
+      <Outlet />
 
       <SiteFooter />
     </>

@@ -2,11 +2,11 @@ import SiteLogo from '../SiteLogo/SiteLogo';
 
 const SiteHeader = () => {
   return (
-    <footer className="bg-gray-50 py-6">
+    <footer className="bg-stone-800 py-6">
       <div className="container mx-auto px-4 flex items-center">
         <SiteLogo />
 
-        <p className="ml-auto">Made by <strong>David</strong></p>
+        <p className="ml-auto">Készítette: <strong>David</strong></p>
       </div>
     </footer>
   );

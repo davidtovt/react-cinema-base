@@ -4,7 +4,7 @@ import SiteLogo from '../SiteLogo/SiteLogo';
 
 const SiteHeader = () => {
   return (
-    <header className="bg-gradient-to-r from-slate-900 to-slate-600 text-slate-100 py-6">
+    <header className="bg-stone-800 text-slate-100 py-6 drop-shadow-lg">
       <div className="container mx-auto px-4 flex items-center">
         <nav className="flex items-center">
           <SiteLogo logoType="primary" />
@@ -12,10 +12,10 @@ const SiteHeader = () => {
           <ul className="flex space-x-6 list-none">
             <li>
               <Link
-                to="/movies"
+                to="/filmek"
                 className="hover:text-lime-500 transition-color duration-300"
               >
-                Movies
+                Filmek
               </Link>
             </li>
             <li>
@@ -23,7 +23,7 @@ const SiteHeader = () => {
                 to="#"
                 className="hover:text-lime-500 transition-color duration-300"
               >
-                Series
+                Sorozatok
               </Link>
             </li>
           </ul>

@@ -8,7 +8,9 @@ const Score = ({ score }) => {
 
   let strokeColorClass = 'stroke-white';
 
-  if (score > 8) {
+  if (score > 9) {
+    strokeColorClass = 'stroke-emerald-500';
+  } else if (score > 8) {
     strokeColorClass = 'stroke-green-500';
   } else if (score > 7) {
     strokeColorClass = 'stroke-lime-500';

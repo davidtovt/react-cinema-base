@@ -1,8 +1,6 @@
 .svg-score {
   fill: none;
-  stroke-dasharray: 0 999;
-  stroke-linecap: round;
-  stroke-width: 5;
+  stroke-dasharray: 0 100;
+  stroke-width: 7;
   transform: rotate(-90deg);
-  transition: stroke-dasharray 1s ease-in-out;
 }

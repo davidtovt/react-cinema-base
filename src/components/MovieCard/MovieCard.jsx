@@ -1,5 +1,7 @@
 import { Link } from 'react-router-dom';
 
+import Score from '../Score/Score';
+
 const MovieCard = ({ movie }) => {
   return (
     <Link
@@ -19,15 +21,19 @@ const MovieCard = ({ movie }) => {
             alt={movie.title}
           />
         ) : (
-          <div className="absolute top-0 left-0 w-full h-full bg-stone-800"></div>
+          <div className="absolute flex top-0 left-0 w-full h-full items-center p-3 text-center justify-center uppercase font-bold text-4xl opacity-30 bg-stone-700">
+            Hiányzó borítókép
+          </div>
         )}
       </div>
-      <h5 className="absolute bottom-0 left-0 z-20 w-full px-4 py-6 text-sm font-semibold text-white text-center">
-        {movie.title}{' '}
-        <span className="block font-normal opacity-50">
+      <h5 className="absolute bottom-0 left-0 z-20 w-full px-4 py-5 font-semibold text-white text-center leading-tight">
+        {movie.title}
+        <span className="block text-sm font-normal opacity-50 mt-2">
           {movie.release_date}
         </span>
       </h5>
+
+      {movie.vote_average > 0 && <Score score={movie.vote_average} />}
     </Link>
   );
 };

@@ -6,7 +6,7 @@ const SiteHeader = () => {
       <div className="container mx-auto px-4 flex items-center">
         <SiteLogo />
 
-        <p className="ml-auto">Készítette: <strong>David</strong></p>
+        {/*<p className="ml-auto">Készítette</p>*/}
       </div>
     </footer>
   );

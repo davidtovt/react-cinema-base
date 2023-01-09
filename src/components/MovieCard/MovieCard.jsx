@@ -33,7 +33,7 @@ const MovieCard = ({ movie }) => {
         </span>
       </h5>
 
-      {movie.vote_average > 0 && <Score score={movie.vote_average} />}
+      {movie.vote_average > 0 && <Score score={movie.vote_average} className="absolute top-4 right-4" />}
     </Link>
   );
 };

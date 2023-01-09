@@ -4,7 +4,7 @@ import SiteLogo from '../SiteLogo/SiteLogo';
 
 const SiteHeader = () => {
   return (
-    <header className="bg-stone-800 text-slate-100 py-6 drop-shadow-lg">
+    <header className="bg-gradient-to-r from-stone-800 to-stone-900 text-slate-100 py-6 drop-shadow-lg">
       <div className="container mx-auto px-4 flex items-center">
         <nav className="flex items-center">
           <SiteLogo logoType="primary" />

@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-
 import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
@@ -9,6 +7,7 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import useFetch from '../../hooks/useFetch';
+import useSearchParamsState from '../../hooks/useSearchParamsState';
 import PageTitle from '../../components/PageTitle/PageTitle';
 import MovieCard from '../../components/MovieCard/MovieCard';
 import Loader from '../../components/Loader/Loader';
@@ -19,34 +18,13 @@ import { formatNumber } from '../../utils/functions';
 library.add(faPaste, faArrowDownWideShort, faArrowUpWideShort);
 
 /**
- * Functions
- */
-
-const addUrlParam = (stateUrlParams, param, value) => {
-  stateUrlParams.set(param, value);
-
-  window.history.replaceState(null, null, '?' + stateUrlParams.toString());
-};
-
-const setNewStatesByUrlParams = (stateUrlParams, params) => {
-  for (let param in params) {
-    if (stateUrlParams.get(param)) {
-      const callback = params[param];
-
-      callback(stateUrlParams.get(param));
-    }
-  }
-};
-
-/**
  * Component
  */
 
 const MovieList = () => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [sortBy, setSortBy] = useState('popularity');
-  const [orderBy, setOrderBy] = useState('desc');
-  const [urlParams] = useState(new URLSearchParams(window.location.search));
+  const [currentPage, setCurrentPage] = useSearchParamsState('page', 1);
+  const [sortBy, setSortBy] = useSearchParamsState('sortBy', 'popularity');
+  const [orderBy, setOrderBy] = useSearchParamsState('orderBy', 'desc');
 
   const moviesUrl =
     process.env.REACT_APP_TMDB_URL +
@@ -64,33 +42,19 @@ const MovieList = () => {
 
   const changeCurrentPage = (page) => {
     setCurrentPage(page);
-
-    addUrlParam(urlParams, 'page', page);
   };
 
   const sortByHandler = (event) => {
     const newSortBy = event.target.value;
 
     setSortBy(newSortBy);
-
-    addUrlParam(urlParams, 'sortBy', newSortBy);
   };
 
   const orderByHandler = () => {
     const newOrderBy = orderBy === 'asc' ? 'desc' : 'asc';
 
     setOrderBy(newOrderBy);
-
-    addUrlParam(urlParams, 'orderBy', newOrderBy);
   };
-
-  useEffect(() => {
-    setNewStatesByUrlParams(urlParams, {
-      page: setCurrentPage,
-      sortBy: setSortBy,
-      orderBy: setOrderBy,
-    });
-  }, []);
 
   return (
     <main className="container mx-auto px-4 py-10">
@@ -106,7 +70,9 @@ const MovieList = () => {
             </div>
 
             <div className="flex items-center justify-end col-span-5 mb-1">
-              <label className="mb-3 mr-5" htmlFor="list-sort-by">Rendezés</label>
+              <label className="mb-3 mr-5" htmlFor="list-sort-by">
+                Rendezés
+              </label>
               <select
                 onChange={sortByHandler}
                 value={sortBy}
@@ -142,7 +108,6 @@ const MovieList = () => {
           </div>
 
           <Pagination
-            urlParams={urlParams}
             totalPages={movies.total_pages}
             currentPage={currentPage}
             onClickHandler={changeCurrentPage}

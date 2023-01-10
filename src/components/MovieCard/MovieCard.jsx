@@ -14,8 +14,7 @@ const MovieCard = ({ movie }) => {
             className="absolute top-0 left-0 w-full h-full object-cover"
             src={
               process.env.REACT_APP_TMDB_POSTER_PATH +
-              'w' +
-              process.env.REACT_APP_TMDB_POSTER_LIST_WIDTH +
+              'w300' +
               movie.poster_path
             }
             alt={movie.title}

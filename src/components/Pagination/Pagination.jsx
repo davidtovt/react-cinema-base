@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom';
+import { Link, useSearchParams } from 'react-router-dom';
 
 /**
  * Functions
@@ -82,13 +82,13 @@ const setPageUrl = (page, urlParams, currentPage) => {
  */
 
 const Pagination = ({
-  urlParams,
   totalPages,
   currentPage,
   pageLimit,
   onClickHandler,
 }) => {
   const pagesObject = setPagesOject(totalPages, currentPage, pageLimit);
+  const [urlParams] = useSearchParams({});
 
   return (
     <ol className="flex flex-wrap items-center justify-center list-none">

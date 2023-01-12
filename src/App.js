@@ -3,7 +3,6 @@ import { BrowserRouter, Routes, Route } from 'react-router-dom';
 
 import Layout from './routes/Layout/Layout';
 import Home from './routes/Home/Home';
-import MovieList from './routes/MovieList/MovieList';
 import MovieSingle from './routes/MovieSingle/MovieSingle';
 
 function App() {
@@ -12,10 +11,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="filmek">
-            <Route index element={<MovieList />} />
-            <Route path=":movieId" element={<MovieSingle />} />
-          </Route>
+          <Route path=":movieId" element={<MovieSingle />} />
         </Route>
       </Routes>
     </BrowserRouter>

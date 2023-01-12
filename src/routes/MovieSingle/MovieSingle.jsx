@@ -1,4 +1,4 @@
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import LightGallery from 'lightgallery/react';
 
 import lgVideo from 'lightgallery/plugins/video';
@@ -14,10 +14,13 @@ import {
 } from '@fortawesome/free-solid-svg-icons';
 
 import useFetch from '../../hooks/useFetch';
-import PageTitle from '../../components/PageTitle/PageTitle';
+import Title from '../../components/Title/Title';
 import Score from '../../components/Score/Score';
 import Button from '../../components/Button/Button';
 import Loader from '../../components/Loader/Loader';
+import MovieCard from '../../components/MovieCard/MovieCard';
+import GalleryCard from '../../components/GalleryCard/GalleryCard';
+import UserCard from '../../components/UserCard/UserCard';
 
 import 'lightgallery/scss/lightgallery.scss';
 import 'lightgallery/scss/lg-video.scss';
@@ -167,47 +170,37 @@ const MovieSingle = () => {
             }
           >
             <div className="relative z-10 container mx-auto py-10 px-4 text-white">
-              <Link
+              <Button
                 to={-1}
-                className="inline-flex items-center mb-6 px-4 py-2 rounded-lg text-sm font-bold bg-white/10 backdrop-blur hover:bg-white/20 transition-colors"
+                variant="link"
+                size="sm"
+                color="white"
+                extraClassNames="mb-6"
               >
                 <FontAwesomeIcon
                   className="mr-2 text-lime-500"
                   icon="fa-solid fa-chevron-left"
                 />
                 Vissza a filmekhez
-              </Link>
+              </Button>
 
-              <div className="grid grid-cols-12 gap-10">
-                <div className="col-span-3">
-                  <div className="relative overflow-hidden rounded-xl before:pb-[150%] before:block">
-                    {movie.poster_path ? (
-                      <img
-                        className="absolute top-0 left-0 w-full h-full object-cover"
-                        src={
-                          process.env.REACT_APP_TMDB_POSTER_PATH +
-                          'w500' +
-                          movie.poster_path
-                        }
-                        alt={movie.title}
-                      />
-                    ) : (
-                      <div className="absolute top-0 left-0 w-full h-full bg-stone-800"></div>
-                    )}
-                  </div>
+              <div className="grid grid-cols-1 lg:grid-cols-12 gap-10">
+                <div className="hidden lg:block col-span-1 lg:col-span-3">
+                  <MovieCard key={movie.id} movie={movie} empty />
                 </div>
-                <div className="flex flex-col col-span-9">
-                  <div className="flex items-center mb-6">
-                    <div>
-                      <PageTitle
+                <div className="col-span-1 lg:col-span-9 flex flex-col">
+                  <div className="block md:flex items-center mb-6">
+                    <div className="mr-4">
+                      <Title
+                        type="page"
                         secondaryText={
                           movie.release_date && movie.release_date.split('-')[0]
                         }
                       >
                         {movie.title}
-                      </PageTitle>
+                      </Title>
 
-                      <ul className="flex -mt-2">
+                      <ul className="flex flex-wrap -mt-2">
                         <li className="mr-6">
                           <FontAwesomeIcon
                             className="mr-3 opacity-60"
@@ -221,13 +214,11 @@ const MovieSingle = () => {
                             icon="fa-solid fa-folder-open"
                           />
 
-                          <ul className="flex">
+                          <ul className="flex flex-wrap">
                             {movie.genres &&
                               movie.genres.map((genre) => (
                                 <li className="mr-3" key={genre.id}>
-                                  <Link className="underline underline-offset-2 hover:no-underline">
-                                    {genre.name}
-                                  </Link>
+                                  {genre.name}
                                 </li>
                               ))}
                           </ul>
@@ -255,8 +246,8 @@ const MovieSingle = () => {
                     </div>
 
                     {movie.vote_average > 0 ? (
-                      <div className="flex items-center ml-auto">
-                        <span className="leading-none mr-3 text-right">
+                      <div className="flex items-center ml-auto mt-6 mt-lg-0">
+                        <span className="leading-none mr-3 md:text-right">
                           <strong>{movie.vote_count.toLocaleString()}</strong>
                           <span className="block text-sm">értékelés</span>
                         </span>
@@ -278,19 +269,19 @@ const MovieSingle = () => {
                     <p className="mb-6 text-lg">{movie.overview}</p>
 
                     <div className="grid grid-cols-12 text-sm mb-2">
-                      <div className="col-span-6">
+                      <div className="col-span-12 md:col-span-6">
                         <h4 className="text-base font-bold mb-1">Rendező</h4>
 
                         <p className="mb-4">{directors.join(', ')}</p>
                       </div>
 
-                      <div className="col-span-6">
+                      <div className="col-span-12 md:col-span-6">
                         <h4 className="text-base font-bold mb-1">Író</h4>
 
                         <p className="mb-4">{writers.join(', ')}</p>
                       </div>
 
-                      <div className="col-span-6">
+                      <div className="col-span-12 md:col-span-6">
                         <h4 className="text-base font-bold mb-1">
                           Eredeti cím
                         </h4>
@@ -298,7 +289,7 @@ const MovieSingle = () => {
                         <p className="mb-4">{movie.original_title}</p>
                       </div>
 
-                      <div className="col-span-6">
+                      <div className="col-span-12 md:col-span-6">
                         <h4 className="text-base font-bold mb-1">
                           Rendező ország
                         </h4>
@@ -334,67 +325,21 @@ const MovieSingle = () => {
 
           <section className="pt-10">
             <div className="container mx-auto px-4">
-              <h2 className="text-stone-200 text-3xl font-bold mb-6">Képek</h2>
+              <Title type="section">Képek</Title>
 
-              <LightGallery elementClassNames="grid grid-cols-5 gap-1 mb-10">
+              <LightGallery elementClassNames="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-1 mb-10">
                 {imageBackdrops &&
-                  imageBackdrops.map((image) => (
-                    <a
-                      href={
-                        process.env.REACT_APP_TMDB_POSTER_PATH +
-                        'original' +
-                        image.file_path
-                      }
-                      className="relative overflow-hidden before:pb-[50%] before:block rounded"
-                    >
-                      <img
-                        className="absolute top-0 left-0 w-full h-full object-cover"
-                        src={
-                          process.env.REACT_APP_TMDB_POSTER_PATH +
-                          'w300' +
-                          image.file_path
-                        }
-                        alt={movie.title}
-                      />
-                    </a>
+                  imageBackdrops.map((image, index) => (
+                    <GalleryCard key={index} path={image.file_path} title={movie.title} />
                   ))}
               </LightGallery>
 
-              <h2 className="text-stone-200 text-3xl font-bold mb-6">
-                Színészek
-              </h2>
+              <Title type="section">Színészek</Title>
 
-              <div className="grid grid-cols-7 gap-6 mb-6">
+              <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 gap-6 mb-6">
                 {credits.cast &&
                   credits.cast.map((cast) => (
-                    <div
-                      key={cast.id}
-                      className="relative overflow-hidden rounded-xl drop-shadow-md bg-stone-800"
-                    >
-                      <div className="relative before:pb-[150%] before:block">
-                        {cast.profile_path ? (
-                          <img
-                            className="absolute top-0 left-0 w-full h-full object-cover"
-                            src={
-                              process.env.REACT_APP_TMDB_POSTER_PATH +
-                              'w185' +
-                              cast.profile_path
-                            }
-                            alt={cast.name}
-                          />
-                        ) : (
-                          <div className="absolute flex top-0 left-0 w-full h-full items-center p-3 text-center justify-center uppercase font-bold text-4xl opacity-30 bg-stone-700">
-                            Hiányzó kép
-                          </div>
-                        )}
-                      </div>
-                      <div className="py-3 px-4">
-                        <h5 className="font-bold text-white">{cast.name}</h5>
-                        <span className="block text-sm leading-tight">
-                          {cast.character}
-                        </span>
-                      </div>
-                    </div>
+                    <UserCard key={cast.id} user={cast} />
                   ))}
               </div>
             </div>

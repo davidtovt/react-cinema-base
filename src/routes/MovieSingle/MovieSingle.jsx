@@ -1,17 +1,12 @@
+import { useContext } from 'react';
 import { useParams } from 'react-router-dom';
 import LightGallery from 'lightgallery/react';
 
 import lgVideo from 'lightgallery/plugins/video';
 
-import { library } from '@fortawesome/fontawesome-svg-core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faFolderOpen,
-  faClock,
-  faArrowUpRightFromSquare,
-  faCirclePlay,
-  faChevronLeft,
-} from '@fortawesome/free-solid-svg-icons';
+
+import { FavoriteContext } from '../../contexts/favorite';
 
 import useFetch from '../../hooks/useFetch';
 import Title from '../../components/Title/Title';
@@ -24,14 +19,6 @@ import UserCard from '../../components/UserCard/UserCard';
 
 import 'lightgallery/scss/lightgallery.scss';
 import 'lightgallery/scss/lg-video.scss';
-
-library.add(
-  faFolderOpen,
-  faClock,
-  faArrowUpRightFromSquare,
-  faCirclePlay,
-  faChevronLeft
-);
 
 /**
  * Functions
@@ -73,6 +60,7 @@ const getCountries = (production_countries, countries) => {
 
 const MovieSingle = () => {
   const { movieId } = useParams();
+  const { favoriteIds, toggleFavorite } = useContext(FavoriteContext);
 
   const movieUrl =
     process.env.REACT_APP_TMDB_URL +
@@ -151,6 +139,8 @@ const MovieSingle = () => {
     Object.keys(externalIds).length &&
     Object.keys(countries).length &&
     Object.keys(images).length;
+
+  const toggleFavoriteHandler = () => toggleFavorite(movie.id);
 
   return (
     <main className="pb-10">
@@ -300,23 +290,45 @@ const MovieSingle = () => {
                   </div>
 
                   <div className="mt-auto">
-                    {videoTrailer && videoTrailer[0] && (
-                      <LightGallery plugins={[lgVideo]}>
-                        <Button
-                          href={
-                            'https://www.youtube.com/watch?v=' +
-                            videoTrailer[0].key +
-                            '&mute=0'
-                          }
+                    <div className="flex items-center">
+                      {videoTrailer && videoTrailer[0] && (
+                        <LightGallery
+                          plugins={[lgVideo]}
+                          elementClassNames="mr-6"
                         >
-                          <FontAwesomeIcon
-                            className="mr-3 text-3xl text-lime-500"
-                            icon="fa-solid fa-circle-play"
-                          />
-                          Előzetes megtekintése
+                          <Button
+                            href={
+                              'https://www.youtube.com/watch?v=' +
+                              videoTrailer[0].key +
+                              '&mute=0'
+                            }
+                          >
+                            <FontAwesomeIcon
+                              className="mr-3 text-3xl text-lime-500"
+                              icon="fa-solid fa-circle-play"
+                            />
+                            Előzetes megtekintése
+                          </Button>
+                        </LightGallery>
+                      )}
+
+                      <div className="flex gap-6 mr-6">
+                        <Button
+                          variant="button"
+                          color="pink"
+                          shape="circle"
+                          onClickHandle={toggleFavoriteHandler}
+                          status={favoriteIds && favoriteIds.includes(movie.id) ? 'active' : ''}
+                        >
+                          <FontAwesomeIcon icon="fa-solid fa-heart" />
+                          <div className="sr-only">Kedvenc</div>
                         </Button>
-                      </LightGallery>
-                    )}
+                        {/*<Button variant="button" color="blue" shape="circle">
+                          <FontAwesomeIcon icon="fa-solid fa-calendar-days" />
+                          <div className="sr-only">Megnézem</div>
+                        </Button>*/}
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>
@@ -330,7 +342,11 @@ const MovieSingle = () => {
               <LightGallery elementClassNames="grid grid-cols-2 sm:grid-cols-3 xl:grid-cols-5 gap-1 mb-10">
                 {imageBackdrops &&
                   imageBackdrops.map((image, index) => (
-                    <GalleryCard key={index} path={image.file_path} title={movie.title} />
+                    <GalleryCard
+                      key={index}
+                      path={image.file_path}
+                      title={movie.title}
+                    />
                   ))}
               </LightGallery>
 

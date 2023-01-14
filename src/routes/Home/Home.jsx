@@ -1,10 +1,5 @@
-import { library } from '@fortawesome/fontawesome-svg-core';
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPaste,
-  faArrowDownWideShort,
-  faArrowUpWideShort,
-} from '@fortawesome/free-solid-svg-icons';
 
 import useFetch from '../../hooks/useFetch';
 import useSearchParamsState from '../../hooks/useSearchParamsState';
@@ -14,8 +9,6 @@ import Loader from '../../components/Loader/Loader';
 import Pagination from '../../components/Pagination/Pagination';
 
 import { formatNumber } from '../../utils/functions';
-
-library.add(faPaste, faArrowDownWideShort, faArrowUpWideShort);
 
 const Home = () => {
   const [currentPage, setCurrentPage] = useSearchParamsState('page', 1);
@@ -58,7 +51,7 @@ const Home = () => {
         <>
           <div className="grid grid-cols-12 items-center mb-6">
             <div className="col-span-12 md:col-span-7">
-              <Title
+              <Title type="page"
                 secondaryText={formatNumber(movies.total_results) + ' db'}
               >
                 Filmek

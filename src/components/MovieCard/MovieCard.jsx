@@ -1,15 +1,35 @@
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+
+import { FavoriteContext } from '../../contexts/favorite';
+
 import Score from '../Score/Score';
+import Button from '../../components/Button/Button';
 
 const MovieCard = ({ movie, empty }) => {
+  const { favoriteIds, toggleFavorite } = useContext(FavoriteContext);
+
+  const toggleFavoriteHandler = (e) => {
+    e.preventDefault();
+    toggleFavorite(movie.id);
+  };
+
   const cover = (
-    <div className={'relative before:pb-[150%] before:block' + (empty ? ' overflow-hidden rounded-xl' : '')}>
+    <div
+      className={
+        'relative before:pb-[150%] before:block' +
+        (empty ? ' overflow-hidden rounded-xl' : '')
+      }
+    >
       {movie.poster_path ? (
         <img
           className="absolute top-0 left-0 w-full h-full object-cover"
           src={
-            process.env.REACT_APP_TMDB_POSTER_PATH + (empty ? 'w500' : 'w300') + movie.poster_path
+            process.env.REACT_APP_TMDB_POSTER_PATH +
+            (empty ? 'w500' : 'w300') +
+            movie.poster_path
           }
           alt={movie.title}
         />
@@ -39,6 +59,19 @@ const MovieCard = ({ movie, empty }) => {
       {movie.vote_average > 0 && (
         <Score score={movie.vote_average} className="absolute top-4 right-4" />
       )}
+
+      <Button
+        variant="button"
+        color="pink"
+        size="sm"
+        shape="circle"
+        onClickHandle={toggleFavoriteHandler}
+        status={favoriteIds && favoriteIds.includes(movie.id) ? 'active' : ''}
+        extraClassNames="absolute top-16 right-4"
+      >
+        <FontAwesomeIcon icon="fa-solid fa-heart" />
+        <div className="sr-only">Kedvenc</div>
+      </Button>
     </Link>
   );
 };
